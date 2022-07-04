@@ -11,7 +11,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from "@remix-run/react";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
@@ -22,34 +21,29 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Travel Lite",
+  title: "Travel Lazy",
   viewport: "width=device-width,initial-scale=1",
 });
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
-  ENV: { [key: string]: string | undefined };
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   return json<LoaderData>({
     user: await getUser(request),
-    ENV: {
-      STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
-      FAUNA_DB_URL: process.env.FAUNA_DB_URL,
-    },
   });
 };
 
 export default function App() {
-  const data = useLoaderData();
+  // const data = useLoaderData();
 
   return (
     <html
       lang="en"
-      className="min-h-full"
+      className="relative min-h-full"
       suppressHydrationWarning={true}
-      data-theme="dark"
+      data-theme="light"
     >
       <head>
         <Meta />
@@ -58,11 +52,7 @@ export default function App() {
       <body className="h-full">
         <Outlet />
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
+
         <Scripts />
         <LiveReload />
       </body>

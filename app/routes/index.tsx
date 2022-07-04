@@ -1,13 +1,15 @@
 import { Form, useActionData, useTransition } from "@remix-run/react";
 import type { ActionFunction } from "@remix-run/server-runtime";
 import { json, redirect } from "@remix-run/server-runtime";
-import console from "console";
 import { add, format } from "date-fns";
 import React from "react";
 import { DataListInput } from "~/components/forms/DatalistInput";
 import { FormInput } from "~/components/forms/FormInput";
-import { PLAN_PAGE } from "~/interface/routes";
-import type { GetawayFormErrorType, GetawayFormType } from "~/lib/getawayForm";
+import { ROUTE_PLAN_OVERVIEW_PAGE } from "~/interface/routes";
+import type {
+  GetawayFormErrorType,
+  GetawayFormType,
+} from "~/lib/getawayFormUtils";
 import {
   countryOptions,
   getawayFormArrivalTimeString,
@@ -15,7 +17,7 @@ import {
   getawayFormDepartureTimeString,
   getawayFormDestinationString,
   validateGetawayForm,
-} from "~/lib/getawayForm";
+} from "~/lib/getawayFormUtils";
 
 interface ActionDataType {
   errors?: GetawayFormErrorType;
@@ -37,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const urlQueryParams = new URLSearchParams(formValuesArr);
-  return redirect(`${PLAN_PAGE}?${urlQueryParams.toString()}`);
+  return redirect(`${ROUTE_PLAN_OVERVIEW_PAGE}?${urlQueryParams.toString()}`);
 };
 
 export default function Index() {
@@ -51,8 +53,8 @@ export default function Index() {
       <div className="hero min-h-screen bg-[url(/images/bg-image.jpg)]">
         <div className="hero-overlay bg-opacity-60" />
         <div className="hero-content flex-col lg:grid lg:grid-cols-[2fr_1fr] lg:gap-5">
-          <div className="p-6 text-center lg:text-left">
-            <h1 className="text-4xl font-bold lg:text-5xl ">
+          <div className="p-6 text-center text-gray-200 lg:text-left">
+            <h1 className="text-grayy-200 text-4xl font-bold lg:text-5xl">
               Find your perfect getaway
             </h1>
             <p className="py-6 lg:text-lg">
@@ -77,14 +79,12 @@ export default function Index() {
                   />
 
                   <FormInput
-                    label="arrival"
-                    className="input"
+                    label="Arrival"
                     type="datetime-local"
                     name={getawayFormArrivalTimeString}
                     id="arrival-time"
                     min={format(new Date(), getawayFormDateFormat)}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      console.log("e.target.value", e.target.value);
                       setArrivalTime(e.target.value);
                     }}
                     error={actionData?.errors?.arrivalTime}
@@ -93,13 +93,18 @@ export default function Index() {
                   <FormInput
                     label="Departure"
                     type="datetime-local"
-                    className="input"
                     name={getawayFormDepartureTimeString}
                     id="departure-time"
-                    min={arrivalTime}
+                    min={format(
+                      add(arrivalTime ? new Date(arrivalTime) : new Date(), {
+                        days: 2,
+                      }),
+                      getawayFormDateFormat
+                    )}
                     max={format(
                       add(arrivalTime ? new Date(arrivalTime) : new Date(), {
-                        days: 6,
+                        days: 2,
+                        hours: 23,
                       }),
                       getawayFormDateFormat
                     )}

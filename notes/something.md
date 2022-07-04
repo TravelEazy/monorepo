@@ -42,21 +42,26 @@ title: First brainstorm
 - Crowded times to avoid
 - What I'm doing there
 
-### Later on after viewing your itinerary
+## Flow
 
-- Hotel location
+1. Choose country or city
+   1. If you choose country we show you segments of the various city and recommended time spent in each City
+   2. If you choose city, we go straight to the city and the recommended itinerary for that city.
+1. Later on after viewing your itinerary
+   1. Hotel location
 
 ## Other Ideas
 
 - Travel Planner
+
 - Accessible Private Banking
   - Having someone // something to manage money on your behalf to ensure that it is working for you.
   - Pooling together many small capital to gain access to something larger (Fractionalized ownership)
     - REITS
     - Staking to become a validator
-- Casino Gaming
+- Casino Gaming -> Casino IRL.
 - Allowing anyone to raise capital for projects (essentially an IPO. Securities is a huge legal issue)
-- Sport score tracking
 
+- Sport score tracking
 - Receipts for big brand items (e.g. Rolex, exp sneakers etc.)
 - Online Therapy
